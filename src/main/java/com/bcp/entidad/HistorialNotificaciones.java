@@ -30,6 +30,11 @@ public class HistorialNotificaciones {
 	@JoinColumn(name = "idCliente")
 	private Cliente cliente;
 	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idTipoMovimiento")
+	private TipoMovimiento tipoMovimiento;
+	
 	
 
 

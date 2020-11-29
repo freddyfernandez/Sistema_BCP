@@ -17,16 +17,17 @@
 <link rel="stylesheet" href="css/noti.css"/>
 
 
-<title>Intranet Clinica - Freddy Fernandez</title>
+<title>Intranet BCP - Jorge Jacinto Gutarra</title>
 </head>
 <body>
        
 <jsp:include page="intranetCabecera.jsp" />
 
 <div class="container" style="width: 60%; margin-top: 4%">&nbsp;<br>&nbsp;<br>&nbsp;<br>
-<h3>Sistema Clinico</h3><br><br>
+<h3>Sistema BCP</h3><br><br>
 <h4>Bienvenido Sr(a): ${sessionScope.objCliente.nombre}</h4>                
 <h4>DNI : ${sessionScope.objCliente.dni}</h4>
+<h4>Roles 	</h4>
 	<ul>
         <c:forEach var="x" items="${sessionScope.objRoles}">
             <li>

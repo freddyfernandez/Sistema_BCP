@@ -10,12 +10,13 @@ import com.bcp.entidad.HistorialNotificaciones;
 
 public interface HistorialNotificacionesRepository  extends JpaRepository<HistorialNotificaciones, Integer>{
 
-	@Query("Select h from HistorialNotificaciones h, Mensaje m where "
-			+ " m.historialnotificacion.idHistorialNotificaciones = h.idHistorialNotificaciones and "
-		       + " h.cliente.idCliente = :var_cli")
-
+	
+	@Query("Select hn from HistorialNotificaciones hn, ConfiguracionNotificacion cn where "
+			+ "hn.cliente.idCliente=cn.cliente.idCliente and "
+			+ "cn.tipoMovimiento.idTipoMovimiento=hn.tipoMovimiento.idTipoMovimiento and "
+			+ "cn.estado = 'ACTIVO' "
+			+ "and hn.cliente.idCliente = :var_cli ")
 	public abstract List<HistorialNotificaciones> listaPorCliente(@Param(value = "var_cli") int idCliente);
 	
-	//invertir  las sentencias  de p.atributo = m.tabla.atributo --> m.tabla.atributo = p.atributo
-	
 }
+

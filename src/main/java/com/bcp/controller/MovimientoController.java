@@ -34,8 +34,6 @@ public class MovimientoController {
 	@Autowired
 	private HistorialNotificacionesService historialNotificacionesService;
 	
-	@Autowired
-	private MensajeService mensajeService;
 	
 	@RequestMapping("/verMovimiento")
 	public String ver() {
@@ -51,9 +49,9 @@ public class MovimientoController {
 	
 	@RequestMapping("/cargaNotificaciones")
 	@ResponseBody
-	public List<Mensaje> listaNotificaciones(HttpSession session) {
+	public List<HistorialNotificaciones> listaNotificaciones(HttpSession session) {
 		Cliente objCliente = (Cliente)	session.getAttribute("objCliente");
-		return mensajeService.listaPorCliente(objCliente.getIdCliente());
+		return historialNotificacionesService.listaPorCliente(objCliente.getIdCliente());
 	}
 	
 	
@@ -76,9 +74,11 @@ public class MovimientoController {
 		historialCuentaService.registraHistorial(obj1);
 		
 		HistorialNotificaciones obj3 = new HistorialNotificaciones();
-		obj3.setMensaje("Se ha retirado de la cuenta " + objCuentaOrigen.getNumero());
+		
+		obj3.setMensaje("Se ha retirado de la cuenta " + objCuentaOrigen.getNumero()+": "+obj1.getFechaRegistro());
 		obj3.setEstado("NO VISTO");
 		obj3.setCliente(objCuentaOrigen.getCliente());
+		obj3.setTipoMovimiento(objTipoMov01);
 		
 		
 		
@@ -104,9 +104,11 @@ public class MovimientoController {
 		Cliente objCliente = (Cliente)	session.getAttribute("objCliente");
 		
 		HistorialNotificaciones obj4 = new HistorialNotificaciones();
-		obj4.setMensaje(objCliente.getNombre()+": Te ha depositado a la cuenta " + objCuentaDestino.getNumero());
+		obj4.setMensaje(objCliente.getNombre()+": Te ha depositado a la cuenta " + objCuentaDestino.getNumero()
+		+": "+obj2.getFechaRegistro());
 		obj4.setEstado("NO VISTO");
 		obj4.setCliente(objCuentaDestino.getCliente());
+		obj4.setTipoMovimiento(objTipoMov02);
 		
 		HistorialNotificaciones objHnotificacion = historialNotificacionesService.registraHistorial(obj4);
 		session.setAttribute("objHNotificacion", objHnotificacion);

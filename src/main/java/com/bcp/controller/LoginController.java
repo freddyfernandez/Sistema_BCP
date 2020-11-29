@@ -1,5 +1,8 @@
 package com.bcp.controller;
 
+import java.util.List;
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,17 +13,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bcp.entidad.Cliente;
 import com.bcp.servicio.ClienteService;
+import com.bcp.servicio.TarjetaService;
+import com.bcp.entidad.Opcion;
+import com.bcp.entidad.Rol;
+import com.bcp.entidad.Tarjeta;
 
 @Controller
 public class LoginController {
 
 	@Autowired
 	private ClienteService servicio;
+	
+	@Autowired
+	private TarjetaService tarjetaServicio;
 
 	@RequestMapping("/")
 	public String ver() {
 		return "login";
 	}
+	
+	@RequestMapping("/verIntranetHome")
+	public String verHome() { return "intranetHome"; }
+	
+	@RequestMapping("/verMovimientoMismoBanco")
+	public String regCurso() { return "movimiento"; }
 
 	@RequestMapping("/login")
 	public String login(Cliente cliente, HttpSession session, HttpServletRequest request) {
@@ -30,9 +46,23 @@ public class LoginController {
 			request.setAttribute("mensaje", "El usuario no existe");
 			return "login";
 		} else {
+			List<Rol> roles = servicio.traerRolesDeUsuario(objUsu.getIdCliente());
+			List<Opcion> menus = servicio.traerEnlacesDeUsuario(objUsu.getIdCliente());
+			Tarjeta tarjeta=tarjetaServicio.BuscarTarjetaPorCliente(objUsu.getIdCliente());
+			
+			
 			session.setAttribute("objCliente", objUsu);
-			return "movimiento";
+			session.setAttribute("objRoles", roles);
+			session.setAttribute("objMenus", menus);
+			session.setAttribute("objTarjeta", tarjeta);
+			
+			return "redirect:home";
 		}
+	}
+	
+	@RequestMapping("/home")
+	public String salida() {
+		return "intranetHome";
 	}
 	
 	@RequestMapping("/logout")

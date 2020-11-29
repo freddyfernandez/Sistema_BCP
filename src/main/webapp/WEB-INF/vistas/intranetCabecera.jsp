@@ -14,19 +14,64 @@
     <ul class="nav navbar-nav navbar-left">
        	<li><a href="verIntranetHome">Home</a></li>
     </ul>
+    
+    <ul class="nav navbar-nav">
+    	<li class="dropdown">
+	        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	          Configuraciones<b class="caret"></b>
+	        </a>
+	        <ul class="dropdown-menu">
+	        	<c:forEach var="x" items="${sessionScope.objMenus}">
+		        	<c:if test="${x.tipo == 3}">
+					<li>
+		        			<a href="${x.ruta}">
+		        				${x.nombre}
+		        			</a>
+		        		</li>
+	        		</c:if>
+	        	</c:forEach>
+	        </ul>
+     	</li>
+     </ul>
          
     <ul class="nav navbar-nav">
     	<li class="dropdown">
 	        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-	          Historial Clinico<b class="caret"></b>
+	          Mis Operaciones<b class="caret"></b>
 	        </a>
 	        <ul class="dropdown-menu">
-	        
-	            
-
+	        	<c:forEach var="x" items="${sessionScope.objMenus}">
+		        	<c:if test="${x.tipo == 1}">
+					<li>
+		        			<a href="${x.ruta}">
+		        				${x.nombre}
+		        			</a>
+		        		</li>
+	        		</c:if>
+	        	</c:forEach>
 	        </ul>
      	</li>
      </ul>
+     
+     <ul class="nav navbar-nav">
+    	<li class="dropdown">
+	        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	          Mantenimientos<b class="caret"></b>
+	        </a>
+	        <ul class="dropdown-menu">
+	        	<c:forEach var="x" items="${sessionScope.objMenus}">
+		        	<c:if test="${x.tipo == 2}">
+					<li>
+		        			<a href="${x.ruta}">
+		        				${x.nombre}
+		        			</a>
+		        		</li>
+	        		</c:if>
+	        	</c:forEach>
+	        </ul>
+     	</li>
+     </ul>
+     
      
       <ul class="nav navbar-nav navbar-right"> 
      	<li id="noti_Container" >
@@ -67,8 +112,7 @@ var contador = 0;
     		$.each(data, function(index,item){
     			contador+=1;
     			console.log(contador);
-    			$("#idNotificaciones").append("<h4>"+ item.historialnotificacion.mensaje +"</h4>");
-    			$("#idNotificaciones").append("<h4>"+ item.texto +"</h4>");
+    			$("#idNotificaciones").append("<h4>"+ item.mensaje +"</h4>");
     			$("#idNotificaciones").append("-----------------------------------------------");
     			
 
