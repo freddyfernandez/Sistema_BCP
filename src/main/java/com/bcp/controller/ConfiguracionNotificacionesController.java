@@ -1,28 +1,26 @@
 package com.bcp.controller;
 
 import java.util.List;
-
-
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bcp.entidad.Cliente;
 import com.bcp.entidad.ConfiguracionNotificacion;
-
+import com.bcp.entidad.HistorialNotificaciones;
 import com.bcp.servicio.ConfiguracionNotificacionesService;
-
-
-
+import com.bcp.servicio.HistorialNotificacionesService;
 
 @Controller
 public class ConfiguracionNotificacionesController {
 	
 	@Autowired
 	ConfiguracionNotificacionesService repositorioService;
+	
+	@Autowired
+	private HistorialNotificacionesService historialNotificacionesService;
 	
 	@RequestMapping("/verConsultaNotificaciones")
 	public String listaTipoNotificaciones(HttpSession session ) { 
@@ -66,6 +64,27 @@ public class ConfiguracionNotificacionesController {
 		return "configuracionNotificaciones";
     }
 	
+	//actualiza el estado visto o no visto de las notificaciones
+	@RequestMapping("/actualizarVisionNotificaciones")
+	public void actualizarVisiondeNotifacion(HistorialNotificaciones x,HttpSession session) {
+		
+		
+		if(x.getContenido() != null) {
+			historialNotificacionesService.registraHistorial(x);
+			session.setAttribute("MENSAJE","Se actualizo correctamente");
+		}else {
+			session.setAttribute("MENSAJE","Error al actualizar");
+		}
+		
+	}
+	
+	//Contador de notificacion no vistas
+	@RequestMapping("/cargaNotificacionesNoVistas")
+	@ResponseBody
+	public Long listaNotificacionesNoVistas(HttpSession session) {
+		Cliente objCliente = (Cliente)	session.getAttribute("objCliente");
+		return historialNotificacionesService.contarNotificacionesxEstado(objCliente.getIdCliente());
+	}
 	
 	
 	

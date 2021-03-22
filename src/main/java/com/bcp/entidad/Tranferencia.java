@@ -11,4 +11,5 @@ public class Tranferencia {
 	private String cuentaOrigen;
 	private String cuentaDestino;
 	private double monto;
+	private String mensaje;
 }

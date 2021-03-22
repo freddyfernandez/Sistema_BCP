@@ -13,12 +13,39 @@
 	-webkit-border-radius: 2px;
 	z-index: 1;
 }
-
-/* LA VENTANA DE NOTIFICACIONES. ESTO PERMANECE OCULTO CUANDO SE CARGA LA PÁGINA */
+#notifications a{
+	background: #f1f2f7;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    float: left;
+    width: 100%;
+    color: black;
+    text-decoration-line: none;
+    
+	
+}
+#notifications img{
+	width: 20%;
+    float: left;
+    margin-right: 9px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    height: 100%;
+	border-radius: 50%!important;
+}
+/* LA VENTANA DE . ESTO PERMANECE OCULTO CUANDO SE CARGA LA PÁGINA */
 #notifications {
 	display: none;
-	width: 230px;
+	width: 280px;
 	position: absolute;
+	border-radius: 10px;
+	max-height: 500px;
+    height: auto;
+    padding: 0 10px;
+    overflow-y: scroll;
+	
 	top: 59px;
 	right: 0;
 	background: #FFF;
@@ -56,12 +83,6 @@ h3 {
 	text-align: left;
 	font-size:12px;
 }
-
-
-#idNotificaciones{
-
-}
-
 
 
 .seeAll {
@@ -107,3 +128,15 @@ h3 {
 	margin-right: auto;
 }
 
+
+
+#noti_Container{
+	margin-top: -7px;
+}
+
+#idNotificaciones{
+	
+	height:20px;
+	
+
+}

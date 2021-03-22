@@ -1,18 +1,16 @@
 package com.bcp.controller;
 
 import java.util.List;
-
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.bcp.entidad.Cliente;
+import com.bcp.entidad.HistorialPublicidad;
 import com.bcp.servicio.ClienteService;
+import com.bcp.servicio.HistorialPublicidadService;
 import com.bcp.servicio.TarjetaService;
 import com.bcp.entidad.Opcion;
 import com.bcp.entidad.Rol;
@@ -26,17 +24,15 @@ public class LoginController {
 	
 	@Autowired
 	private TarjetaService tarjetaServicio;
+	
+	@Autowired
+	private HistorialPublicidadService publicidadServicio;
 
 	@RequestMapping("/")
 	public String ver() {
 		return "login";
 	}
-	
-	@RequestMapping("/verIntranetHome")
-	public String verHome() { return "intranetHome"; }
-	
-	@RequestMapping("/verMovimientoMismoBanco")
-	public String regCurso() { return "movimiento"; }
+
 
 	@RequestMapping("/login")
 	public String login(Cliente cliente, HttpSession session, HttpServletRequest request) {
@@ -50,18 +46,34 @@ public class LoginController {
 			List<Opcion> menus = servicio.traerEnlacesDeUsuario(objUsu.getIdCliente());
 			Tarjeta tarjeta=tarjetaServicio.BuscarTarjetaPorCliente(objUsu.getIdCliente());
 			
-			
 			session.setAttribute("objCliente", objUsu);
 			session.setAttribute("objRoles", roles);
 			session.setAttribute("objMenus", menus);
 			session.setAttribute("objTarjeta", tarjeta);
 			
-			return "redirect:home";
+			/*LISTADO DE PUBLICIDAD SEGUN ID CLIENTE*/
+			List<HistorialPublicidad> getlistado = publicidadServicio.listarPorIDCliente(objUsu.getIdCliente());
+			session.setAttribute("objPublicidad", getlistado);
+			
+			
+			return "redirect:Home";
 		}
 	}
+	/* NO ES POSIBLE RENDERIZAR DATOS  REST EN EL SERVIDOR REST
+	@RequestMapping("/Home")
+	public String verHome(HttpSession sessionl) {
 	
-	@RequestMapping("/home")
-	public String salida() {
+		HistorialPublicidad[] getlistado=null;
+		RestTemplate rt=new RestTemplate();
+		ResponseEntity<HistorialPublicidad[]>data= rt.getForEntity(
+						URL+"/listarPublicidadXCliente/"+2,HistorialPublicidad[].class);
+		getlistado=data.getBody();
+		sessionl.setAttribute("objPublicidad", getlistado);
+		return "intranetHome";
+	}*/
+	
+	@RequestMapping("/Home")
+	public String verHome() {
 		return "intranetHome";
 	}
 	

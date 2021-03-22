@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
@@ -23,12 +25,19 @@ public class HistorialNotificaciones {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idHistorialNotificaciones;
 	private String mensaje;
-	private String estado;
+	private String contenido;
+	private int estado;
+	
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private String fechaRegistro;
+	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idCliente")
 	private Cliente cliente;
+	
+	
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)

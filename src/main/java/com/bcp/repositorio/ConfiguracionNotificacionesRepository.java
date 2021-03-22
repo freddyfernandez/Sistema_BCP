@@ -16,6 +16,8 @@ public interface ConfiguracionNotificacionesRepository extends JpaRepository<Con
 	
 	@Query("Select cn from ConfiguracionNotificacion cn where cn.cliente.idCliente = :fil")
 	public abstract List<ConfiguracionNotificacion> buscarPorCliente(@Param("fil") int idCliente);
+	
+	
 
 }
 

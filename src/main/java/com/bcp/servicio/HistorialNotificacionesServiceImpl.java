@@ -24,6 +24,12 @@ public class HistorialNotificacionesServiceImpl implements HistorialNotificacion
 		return repository.listaPorCliente(idCliente);
 	}
 
+	@Override
+	public Long contarNotificacionesxEstado(int idCliente) {
+		// TODO Auto-generated method stub
+		return repository.contarNotificacionesxEstado(idCliente);
+	}
+
 	
 
 }

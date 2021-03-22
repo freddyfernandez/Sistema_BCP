@@ -37,10 +37,10 @@
 <body>
 
 	<jsp:include page="intranetCabecera.jsp" />
-	<div class="container" style="margin-top: 4%">
-
-
-		<h3>Datos del Cliente</h3>
+	<div class="container" style="width: 80%; margin-top: 4%">
+		<div class="container">
+			<h1><strong>Datos del Cliente</strong></h1>
+		</div>
 		<div class="col-md-23">
 			<form accept-charset="UTF-8" action="consultaCliente"
 				class="simple_form" id="defaultForm2" method="post">

@@ -1,6 +1,9 @@
 package com.bcp.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bcp.entidad.Cliente;
-import com.bcp.entidad.ConfiguracionNotificacion;
 import com.bcp.entidad.Cuenta;
 import com.bcp.entidad.HistorialCuenta;
 import com.bcp.entidad.HistorialNotificaciones;
@@ -44,9 +46,16 @@ public class ConfiguracionCuentaController {
 		return "configuracionCuenta";
     }
 	
+	@SuppressWarnings("unused")
 	@RequestMapping("/actualizaCuenta")
 	public String actualizaCuenta(Cuenta obj, HttpSession session) {
 		try {
+			
+			//FORMATEO DE UNA FECHA A TEXTO
+			Date date = new Date();  
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
+			String strDate = dateFormat.format(date); 
+			///--
 			
 			Cliente objCliente = (Cliente)	session.getAttribute("objCliente");
 			Tarjeta objTarjeta = (Tarjeta)	session.getAttribute("objTarjeta");
@@ -64,22 +73,24 @@ public class ConfiguracionCuentaController {
 			Cuenta objSalida = repositorioService.registraActualizaCliente(instanciacn);
 			
 			TipoMovimiento objTipoMov02 = new TipoMovimiento();
-			objTipoMov02.setIdTipoMovimiento(Constantes.CUENTA);
-			
+			objTipoMov02.setIdTipoMovimiento(Constantes.CUENTA); 
 			
 			Cuenta objCuentaOrigen = repositorioService.listaCuentaPorNumero(obj.getNumero());
 			HistorialCuenta obj1 = new HistorialCuenta();
 			obj1.setTipoMovimiento(objTipoMov02);
 			obj1.setMonto(0);
-			obj1.setFechaRegistro(new Date());
+			obj1.setMensaje(objCliente.getNombre()+": Has Actualizado el limite a: " + objSalida.getLimite_transferencia()
+			+" de la cuenta "+objCuentaOrigen.getNumero() +", Fecha: "+strDate);
+			obj1.setFechaRegistro(strDate);
 			obj1.setCuenta(objCuentaOrigen);
 			historialCuentaService.registraHistorial(obj1);
 			
 			
 			HistorialNotificaciones obj4 = new HistorialNotificaciones();
-			obj4.setMensaje(objCliente.getNombre()+": Has Actualizado el limite a: " + objSalida.getLimite_transferencia()
-			+" de la cuenta "+objCuentaOrigen.getNumero() +": "+obj1.getFechaRegistro());
-			obj4.setEstado("NO VISTO");
+			obj4.setMensaje(obj1.getMensaje());
+			obj4.setEstado(0);
+			obj4.setContenido("");
+			obj4.setFechaRegistro(obj1.getFechaRegistro());
 			obj4.setCliente(objCliente);
 			obj4.setTipoMovimiento(objTipoMov02);
 			
@@ -108,5 +119,7 @@ public class ConfiguracionCuentaController {
 		session.setAttribute("configuracionCuentas", data);
 		return "configuracionCuenta";
     }
+	
+	
 
 }
